@@ -1,0 +1,40 @@
+#!/bin/bash
+
+today=`date '+%Y_%m_%d_%H_%M_%S'`;
+existnsidusage="/home/soh516/cmc-home-migration/existnsidusage_$today"
+nonexistnsidusage="/home/soh516/cmc-home-migration/nonexistnsidusage_$today"
+
+cmchomeusage="/home/soh516/cmc-home-migration/cmc-home-usage"
+existnsid="/home/soh516/cmc-home-migration/existnsid_2017_10_27_10_00_56"
+nonexistnsid="/home/soh516/cmc-home-migration/nonexistnsid_2017_10_27_10_00_56"
+
+
+while IFS= read -r line
+do
+  id=$(cut -c-6 <<< "$line")
+  while IFS= read -r id2
+     do
+   if echo "$id2" | grep -q "$id"
+   then
+     id2_useful=${id2:0:4}
+     usefulinfo="$id  $id2_useful"
+     echo $usefulinfo >> $existnsidusage
+  fi
+  done < "$cmchomeusage"
+done < "$existnsid"
+
+while IFS= read -r line
+do
+  id=$(cut -c-6 <<< "$line")
+  while IFS= read -r id2
+     do
+   if echo "$id2" | grep -q "$id"
+   then
+     id2_useful=${id2:0:4}
+     usefulinfo="$id  $id2_useful"
+     echo $usefulinfo >> $nonexistnsidusage
+  fi
+  done < "$cmchomeusage"
+done < "$nonexistnsid"
+
+
