@@ -1,0 +1,20 @@
+#!/bin/bash
+
+today=`date '+%Y_%m_%d_%H_%M_%S'`;
+existnsid="/home/soh516/cmc-home-migration/existnsid_$today"
+nonexistnsid="/home/soh516/cmc-home-migration/nonexistnsid_$today"
+touch $existnsid
+touch $nonexistnsid
+
+cmchome="/home/soh516/cmc-home-migration/cmc-home"
+nfshome="/home/soh516/cmc-home-migration/nfsfiles-home"
+while IFS= read -r cmcnsid
+do
+  if grep -q $cmcnsid $nfshome
+  then
+     echo "$cmcnsid" >> $existnsid
+  else
+     echo "$cmcnsid" >> $nonexistnsid
+  fi
+
+done < "$cmchome"
