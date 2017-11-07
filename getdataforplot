@@ -1,0 +1,11 @@
+#!/bin/bash
+
+today=`date '+%Y_%m_%d_%H_%M_%S'`;
+datafile="/home/tst023/physics/cmc-home-migration/datamigrationspeed_$today"
+touch $datafile
+
+while true; do
+   date >> $datafile
+   du -sh /home/copy_dir >> $datafile
+   sleep 600
+done
