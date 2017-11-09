@@ -1,0 +1,63 @@
+#! /usr/bin/python
+import datetime
+from time import sleep
+import os
+import re
+import numpy as np
+import matplotlib.pyplot as plt
+import matplotlib.dates as md
+
+pauseDur = 10.0 #pasue in min
+
+index = 0
+
+with open('/home/tst023/physics/cmc-home-migration/datamigrationspeed_2017_11_07_10_39_17') as file:
+     for line in file:
+          index = index + 1
+file.closed
+
+iteration = index/2
+
+timePlotIndex = np.zeros(iteration)
+storageArray = np.zeros(iteration)
+
+print iteration
+
+#for i in range(1, iteration):
+#   timeIndex[i] = timeIndex[i-1] + pauseDur
+
+#timeIndex = timeIndex / float(60)
+
+index = 0
+with open('/home/tst023/physics/cmc-home-migration/datamigrationspeed_2017_11_07_10_39_17') as file:
+   for line in file:
+      if (line.find("2017") != -1):
+         timeForData = map(int, re.findall('\d+', line))
+         timeForDay = timeForData[0]
+         timeForHour = timeForData[1]
+         timeForMin = timeForData[2]
+         timeForPlot = (timeForDay*24) + timeForHour + (timeForMin/60)
+         timePlotIndex[index] = timeForPlot
+      else:
+         if (line.find("copy") != -1):  
+            storage = map(float, re.findall(r"[-+]?\d*\.\d+|\d+", line))
+            storageArray[index] = storage[0]
+            print index
+            index = index + 1
+         
+file.closed
+
+timePlotIndex = timePlotIndex - timePlotIndex[0]
+
+fig, ax1 = plt.subplots()
+ax2 = ax1.twinx()
+ax1.plot(timePlotIndex,storageArray, 'ro--', linewidth=2)
+#ax2.plot(timeIndex,fileNumArray, 'bo--', linewidth=2)
+
+ax1.set_xlabel('Time in hours', fontsize=18)
+ax1.set_ylabel('Size in GB', color='r', fontsize=18)
+#ax2.set_ylabel('Number of files', color='b', fontsize=18)
+
+#plt.title('Pangea Data Migration', fontsize=22)
+plt.show()
+
