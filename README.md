@@ -9,3 +9,7 @@ notes --> might be useful later
 getdataforplot --> get data so I can measure speed
 
 plotspeed --> plot spped with data from getdataforplot
+
+nfsrsync.sh --> nfs rsync script
+
+dsrsync.sh --> ds rsync script
