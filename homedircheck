@@ -1,0 +1,37 @@
+#!/bin/bash
+
+# This script will be located @ /data/home/copy_dir/tmp
+# cmc-home is a clean home dir list from engrcmc-home
+# cmc-home will be located @ /data/home/copy_dir/tmp
+# homedirchecknormallog is the normal log for home dir check
+# homedircheckerrorlog is the error log for home dir check
+
+today=`date '+%Y_%m_%d_%H_%M_%S'`;
+logfile="/data/home/copy_dir/tmp/homedirchecknormallog_$today"
+touch $logfile
+errorlogfile="/data/home/copy_dir/tmp/homedircheckerrorlog_$today"
+touch $errorlogfile
+
+function cmc-subdir {
+if [ -d "/data/home/$1" ]
+then
+   if [ ! -d "/data/home/$1/cmc" ]
+      then
+      mkdir -p /data/home/$1/cmc
+      echo "make cmc subdir for $1" >> $logfile
+   fi
+else
+   echo "/data/home/$1 doesn't exist" >> $errorlogfile
+fi
+}
+
+while IFS= read -r THELINE; do
+  if [ "$THELINE" == "llixiang" ]
+  then
+     # nsid for llixiang is lil997 
+     cmc-subdir lil997
+  else
+     # normal nsid
+     cmc-subdir $THELINE
+  fi
+done < /data/home/copy_dir/tmp/cmc-home
