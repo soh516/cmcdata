@@ -13,3 +13,5 @@ plotspeed --> plot spped with data from getdataforplot
 nfsrsync.sh --> nfs rsync script
 
 dsrsync.sh --> ds rsync script
+
+homedircheck --> check home directory. I need to fix any error showing in this step. 
