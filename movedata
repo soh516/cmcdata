@@ -1,0 +1,40 @@
+#!/bin/bash
+
+# This script will be located @ /data/home/copy_dir/tmp
+# cmc-home is a clean home dir list from engrcmc-home
+# cmc-home will be located @ /data/home/copy_dir/tmp
+# movedatalog is the normal action log
+# movedataerrorlog is the error log 
+
+today=`date '+%Y_%m_%d_%H_%M_%S'`;
+logfile="/data/home/copy_dir/tmp/movedatalog_$today"
+touch $logfile
+errorlogfile="/data/home/copy_dir/tmp/movedataerrorlog_$today"
+touch $errorlogfile
+
+function move-to-cmc-subdir {
+if [ -d "/data/home/$1/cmc" ]
+then
+   mv /data/home/copy_dir/$1/ /data/home/$1/cmc
+   chown -Rh $1 /data/home/$1/cmc
+   echo "move data and change owner for $1" >> $logfile
+else
+   echo "/data/home/$1/cmc doesn't exist" >> $errorlogfile
+fi
+}
+
+# fix permission
+find /data/home/copy_dir -type d -print0 | xargs -0 chmod 700 
+find /data/home/copy_dir -type f -print0 | xargs -0 chmod go-rwx
+
+
+while IFS= read -r THELINE; do
+  if [ "$THELINE" == "llixiang" ]
+  then
+     # nsid for llixiang is lil997 
+     move-to-cmc-subdir lil997
+  else
+     # normal nsid
+     move-to-cmc-subdir $THELINE
+  fi
+done < /data/home/copy_dir/tmp/cmc-home
