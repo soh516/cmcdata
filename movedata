@@ -6,7 +6,7 @@
 # movedatalog is the normal action log
 # movedataerrorlog is the error log 
 
-today=`date '+%Y_%m_%d_%H_%M_%S'`;
+today=`/bin/date '+%Y_%m_%d_%H_%M_%S'`;
 logfile="/data/home/copy_dir/tmp/movedatalog_$today"
 /bin/touch $logfile
 errorlogfile="/data/home/copy_dir/tmp/movedataerrorlog_$today"
