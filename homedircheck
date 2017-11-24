@@ -6,7 +6,7 @@
 # homedirchecknormallog is the normal log for home dir check
 # homedircheckerrorlog is the error log for home dir check
 
-today=`date '+%Y_%m_%d_%H_%M_%S'`;
+today=`/bin/date '+%Y_%m_%d_%H_%M_%S'`;
 logfile="/data/home/copy_dir/tmp/homedirchecknormallog_$today"
 /bin/touch $logfile
 errorlogfile="/data/home/copy_dir/tmp/homedircheckerrorlog_$today"
