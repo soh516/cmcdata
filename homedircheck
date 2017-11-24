@@ -12,26 +12,36 @@ touch $logfile
 errorlogfile="/data/home/copy_dir/tmp/homedircheckerrorlog_$today"
 touch $errorlogfile
 
+function chk {
+  if [ $? -ne 0 ] ; then
+    /bin/echo "ERROR: $1"
+    exit 1
+  fi
+}
+
 function cmc-subdir {
 if [ -d "/data/home/$1" ]
 then
    if [ ! -d "/data/home/$1/cmc" ]
       then
-      mkdir -p /data/home/$1/cmc
-      echo "make cmc subdir for $1" >> $logfile
+      /bin/mkdir -p /data/home/$1/cmc
+      chk "cannot create subdir for $1" >> $errorlogfile
+      /bin/echo "make cmc subdir for $1" >> $logfile
    fi
 else
-   echo "/data/home/$1 doesn't exist" >> $errorlogfile
+   /bin/echo "/data/home/$1 doesn't exist" >> $errorlogfile
 fi
 }
 
 while IFS= read -r THELINE; do
-  if [ "$THELINE" == "llixiang" ]
-  then
-     # nsid for llixiang is lil997 
-     cmc-subdir lil997
-  else
-     # normal nsid
-     cmc-subdir $THELINE
+  if [ -n "$THELINE" ]; then
+     if [ "$THELINE" == "llixiang" ]
+     then
+        # nsid for llixiang is lil997 
+        cmc-subdir lil997
+     else
+        # normal nsid
+        cmc-subdir $THELINE
+     fi
   fi
 done < /data/home/copy_dir/tmp/cmc-home
