@@ -34,7 +34,7 @@ then
       /bin/rm -r /data/home/copy_dir/$1/
       chk "can not remove directory for $1" >> $errorlogfile
    fi
-   chown -Rh $1 /data/home/$1/cmc
+   chown -Rh $1:posixusers /data/home/$1/cmc
    chk "can not chown for $1" >> $errorlogfile
    /bin/echo "move data and change owner for $1" >> $logfile
 else
