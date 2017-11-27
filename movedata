@@ -44,8 +44,9 @@ fi
 
 # fix permission
 /bin/find /data/home/copy_dir -type d -print0 | /bin/xargs -0 chmod 700 
+chk "can not fix permission for dir" >> $errorlogfile
 /bin/find /data/home/copy_dir -type f -print0 | /bin/xargs -0 chmod go-rwx
-
+chk "can not fix permission for file" >> $errorlogfile
 
 while IFS= read -r THELINE; do
   if [ -n "$THELINE" ]; then
