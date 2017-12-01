@@ -1,3 +1,0 @@
-...
-#engrcmc-home:/home      /home                   nfs     defaults,_netdev,vers=3   0  0
-nfsfiles.usask.ca:/home    /home    nfs    sec=krb5,exec,vers=3,_netdev   0  0
