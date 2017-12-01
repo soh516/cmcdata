@@ -2,8 +2,8 @@
 #edit /etc/sssd/sssd.conf
 chmod 0700 /etc/sssd/sssd.conf
 #edit /etc/idmapd.conf 
-chkconfig sssd on
-service sssd start 
+chkconfig sssd on --> systemctl enable sssd.service 
+service sssd start --> systemctl start sssd.service 
 #edit /etc/fstab
 umount -l /home
 mount /home
