@@ -1,0 +1,44 @@
+#!/bin/bash
+
+# This script will be located @ /home/soh516/physics/tmp
+# cmc-home is a clean home dir list from engrcmc-home
+# cmc-home will be located @ /home/soh516/physics/tmp
+# iamchecklog is the normal action log
+# iamcheckerrorlog is the error log 
+
+today=`/bin/date '+%Y_%m_%d_%H_%M_%S'`;
+logfile="/home/soh516/physics/tmp/iamchecklog_$today"
+/bin/touch $logfile
+errorlogfile="/home/soh516/physics/tmp/iamcheckerrorlog_$today"
+/bin/touch $errorlogfile
+
+function chk {
+  if [ $? -ne 0 ] ; then
+    /bin/echo "ERROR: $1"
+    exit 1
+  fi
+}
+
+function checkquota {
+if [ -d "/home/$1" ]
+then
+   echo /home/$1 >> $logfile
+   df -h /home/$1 >> $logfile
+   echo >> $logfile
+else
+   /bin/echo "/home/$1 doesn't exist" >> $errorlogfile
+fi
+}
+
+while IFS= read -r THELINE; do
+  if [ -n "$THELINE" ]; then
+     if [ "$THELINE" == "llixiang" ]
+     then
+        # nsid for llixiang is lil997 
+        checkquota lil997
+     else
+        # normal nsid
+        checkquota $THELINE
+     fi
+  fi
+done < /home/soh516/physics/tmp/cmc-home
