@@ -1,0 +1,10 @@
+-bash-4.1$ cat /etc/exports 
+/home   10.64.28.0/24(rw,root_squash)
+/home   10.64.98.0/24(rw,root_squash)
+/home   10.64.220.0/24(rw,root_squash)
+/home   10.80.30.0/24(rw,root_squash)
+/home   10.64.96.0/24(rw,root_squash)
+/MacP   10.64.28.0/24(rw,root_squash)
+/MacP   10.64.98.0/24(rw,root_squash)
+/MacP   10.64.220.0/24(rw,root_squash)
+
