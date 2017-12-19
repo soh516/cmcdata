@@ -1,10 +1,6 @@
 #!/bin/bash
 
 # This script will be located @ /data/home/copy_dir/tmp
-# cmc-home is a clean home dir list from engrcmc-home
-# cmc-home will be located @ /data/home/copy_dir/tmp
-# movedatalog is the normal action log
-# movedataerrorlog is the error log 
 
 today=`/bin/date '+%Y_%m_%d_%H_%M_%S'`;
 errorlogfile="/data/home/copy_dir/tmp/fixuperrorlog_$today"
