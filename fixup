@@ -1,0 +1,48 @@
+#!/bin/bash
+
+# This script will be located @ /data/home/copy_dir/tmp
+# cmc-home is a clean home dir list from engrcmc-home
+# cmc-home will be located @ /data/home/copy_dir/tmp
+# movedatalog is the normal action log
+# movedataerrorlog is the error log 
+
+today=`/bin/date '+%Y_%m_%d_%H_%M_%S'`;
+errorlogfile="/data/home/copy_dir/tmp/fixuperrorlog_$today"
+/bin/touch $errorlogfile
+
+function chk {
+  if [ $? -ne 0 ] ; then
+    /bin/echo "ERROR: $1"
+  fi
+}
+
+   /bin/chown -Rh 352197:posixusers /data/home/ala661/cmc
+   chk "can not chown for ala661" >> $errorlogfile
+   /bin/chown -Rh 411172:posixusers /data/home/anh636/cmc
+   chk "can not chown for anh636" >> $errorlogfile
+   /bin/chown -Rh 1991883:posixusers /data/home/cwc347/cmc
+   chk "can not chown for cwc347" >> $errorlogfile
+   /bin/chown -Rh 7618030:posixusers /data/home/lem494/cmc
+   chk "can not chown for lem494" >> $errorlogfile
+   /bin/chown -Rh 8559788:posixusers /data/home/mos252/cmc
+   chk "can not chown for mos252" >> $errorlogfile
+   /bin/chown -Rh 8918894:posixusers /data/home/ncn358/cmc
+   chk "can not chown for ncn358" >> $errorlogfile
+   /bin/chown -Rh 9074442:posixusers /data/home/nim906/cmc
+   chk "can not chown for nim906" >> $errorlogfile
+   /bin/chown -Rh 11114580:posixusers /data/home/qiz044/cmc
+   chk "can not chown for qiz044" >> $errorlogfile
+   /bin/chown -Rh 11939565:posixusers /data/home/ros029/cmc
+   chk "can not chown for ros029" >> $errorlogfile
+   /bin/chown -Rh 12438157:posixusers /data/home/shw621/cmc
+   chk "can not chown for shw621" >> $errorlogfile
+   /bin/chown -Rh 13143472:posixusers /data/home/tiz936/cmc
+   chk "can not chown for tiz936" >> $errorlogfile
+   /bin/chown -Rh 16156381:posixusers /data/home/xuw845/cmc
+   chk "can not chown for xuw845" >> $errorlogfile
+   /bin/chown -Rh 16313779:posixusers /data/home/yay243/cmc
+   chk "can not chown for yay243" >> $errorlogfile
+   /bin/chown -Rh 16663122:posixusers /data/home/yoj586/cmc
+   chk "can not chown for yoj586" >> $errorlogfile
+   /bin/chown -Rh 17172915:posixusers /data/home/zhz379/cmc
+   chk "can not chown for zhz379" >> $errorlogfile
