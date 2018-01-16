@@ -3,13 +3,13 @@
 # This script will be located @ /data/home/copy_dir
 # cmc-home is a clean home dir list from engrcmc-home
 # cmc-home will be located @ /data/home/copy_dir
-# homedirchecknormallog is the normal log for home dir creation
-# homedircheckerrorlog is the error log for home dir creation
+# homedircreatenormallog is the normal log for home dir creation
+# homedircreateerrorlog is the error log for home dir creation
 
 today=`/bin/date '+%Y_%m_%d_%H_%M_%S'`;
-logfile="/data/home/copy_dir/homedirchecknormallog_$today"
+logfile="/data/home/copy_dir/homedircreatenormallog_$today"
 /bin/touch $logfile
-errorlogfile="/data/home/copy_dir/homedircheckerrorlog_$today"
+errorlogfile="/data/home/copy_dir/homedircreateerrorlog_$today"
 /bin/touch $errorlogfile
 
 function chk {
@@ -19,14 +19,13 @@ function chk {
 }
 
 function cmc-subdir {
-if [ -d "./$1" ]
+if [ ! -d "$1" ]
 then
     /bin/mkdir $1
     chk "cannot make dir for $1" >> $errorlogfile
     /bin/echo "make dir for $1" >> $logfile
 else
    /bin/echo "$1 does exist" >> $errorlogfile
-fi
 fi
 }
 
