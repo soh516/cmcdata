@@ -1,0 +1,30 @@
+#!/bin/bash
+
+function copy-to-copydir {
+
+
+
+FILES=`/bin/find /home/$1/ -maxdepth 1 -type f -name ".*"`
+ 
+for file in $FILES;  do
+   /usr/bin/scp $file tst023@nfsfilesiam:/data/home/copy_dir/$1/
+done
+
+DIRS=`/bin/find /home/$1/ -maxdepth 1 -type d -name ".*"`
+
+for dir in $DIRS;  do
+   /usr/bin/scp -r $dir tst023@nfsfilesiam:/data/home/copy_dir/$1/
+done
+
+
+}
+
+while IFS= read -r THELINE; do
+  if [ -n "$THELINE" ]; then
+        copy-to-copydir $THELINE
+  fi
+done < /root/cmc-home-soh516
+
+#The following is not working so well with scp
+#find /home/soh516/testdir1 -maxdepth 1 -type f -name ".*" -print0 | xargs -0 cp --target-directory=/home/soh516/testdir2  
+#find /home/soh516/testdir1 -maxdepth 1 -type d -name ".*" -print0 | xargs -0 cp -r --target-directory=/home/soh516/testdir2
