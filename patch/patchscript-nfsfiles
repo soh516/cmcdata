@@ -87,7 +87,7 @@ while IFS= read -r THELINE; do
      else
         copy-to-homedir $THELINE
      fi
-  echo "Done $THELINE" >> $logfile
+     /bin/echo "Done $THELINE" >> $logfile
   fi
 done < /data/home/copy_dir/tmp/patch/cmc-home
 
