@@ -1,0 +1,90 @@
+#!/bin/bash
+# I need to run this script as root
+# This script will be located @ /data/home/copy_dir/tmp/patch
+# cmc-home will be located @ /data/home/copy_dir/tmp/patch
+# patcherrorlog is the error log
+
+today=`/bin/date '+%Y_%m_%d_%H_%M_%S'`;
+errorlogfile="/data/home/copy_dir/tmp/patch/patcherrorlog_$today"
+/bin/touch $errorlogfile
+
+function chk {
+  if [ $? -ne 0 ] ; then
+    /bin/echo "ERROR: $1"
+  fi
+}
+
+function copy-to-homedir {
+
+FILES=`/bin/find /data/home/copy_dir/$1 -maxdepth 1 -type f -name ".*"`
+for file in $FILES;  do
+   dfile=${file/"/data/home/copy_dir/$1"/"/data/home/$1/cmc"}
+   if [ ! -e "$dfile" ]
+   then
+      rsync -avzHhi $file /data/home/$1/cmc
+      /bin/chown -h $1:posixusers $dfile
+      chk "can not chown for $dfile" >> $errorlogfile
+   else
+      /bin/echo "$dfile exists already" >> $errorlogfile
+   fi
+done
+
+DIRS=`/bin/find /data/home/copy_dir/$1 -maxdepth 1 -type d -name ".*"`
+for dir in $DIRS;  do
+   ddir=${dir/"/data/home/copy_dir/$1"/"/data/home/$1/cmc"}
+   if [ ! -d "$ddir" ]
+   then
+      rsync -avzHhi $dir /data/home/$1/cmc
+      /bin/chown -Rh $1:posixusers $ddir
+      chk "can not chown for $ddir" >> $errorlogfile
+      /bin/chmod 700 $ddir
+   else
+      /bin/echo "$ddir exists already" >> $errorlogfile
+   fi
+done
+
+}
+
+function copy-to-homedir-lil {
+
+FILES=`/bin/find /data/home/copy_dir/llixiang -maxdepth 1 -type f -name ".*"`
+for file in $FILES;  do
+   dfile=${file/"/data/home/copy_dir/llixiang"/"/data/home/$1/cmc"}
+   if [ ! -e "$dfile" ]
+   then
+      rsync -avzHhi $file /data/home/$1/cmc
+      /bin/chown -h $1:posixusers $dfile
+      chk "can not chown for $dfile" >> $errorlogfile
+   else
+      /bin/echo "$dfile exists already" >> $errorlogfile
+   fi
+done
+
+DIRS=`/bin/find /data/home/copy_dir/llixiang -maxdepth 1 -type d -name ".*"`
+for dir in $DIRS;  do
+   ddir=${dir/"/data/home/copy_dir/llixiang"/"/data/home/$1/cmc"}
+   if [ ! -d "$ddir" ]
+   then
+      rsync -avzHhi $dir /data/home/$1/cmc
+      /bin/chown -Rh $1:posixusers $ddir
+      /bin/chmod 700 $ddir
+      chk "can not chown for $ddir" >> $errorlogfile
+   else
+      /bin/echo "$ddir exists already" >> $errorlogfile
+   fi
+done
+
+}
+
+while IFS= read -r THELINE; do
+  if [ -n "$THELINE" ]; then
+     if [ "$THELINE" == "llixiang" ]
+     then
+        # nsid for llixiang is lil997 
+        copy-to-homedir-lil lil997
+     else
+        copy-to-homedir $THELINE
+     fi
+  fi
+done < /data/home/copy_dir/tmp/patch/cmc-home
+
